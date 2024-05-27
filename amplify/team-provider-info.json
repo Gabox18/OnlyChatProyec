@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-onlychatgabrielbc-dev-5ac35-authRole",
+      "UnauthRoleArn": "arn:aws:iam::448399574978:role/amplify-onlychatgabrielbc-dev-5ac35-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::448399574978:role/amplify-onlychatgabrielbc-dev-5ac35-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-onlychatgabrielbc-dev-5ac35-deployment",
+      "UnauthRoleName": "amplify-onlychatgabrielbc-dev-5ac35-unauthRole",
+      "StackName": "amplify-onlychatgabrielbc-dev-5ac35",
+      "StackId": "arn:aws:cloudformation:us-east-1:448399574978:stack/amplify-onlychatgabrielbc-dev-5ac35/1a3b86f0-1ba4-11ef-acb4-121f15edafa9",
+      "AmplifyAppId": "d23quctgdisery"
+    },
+    "categories": {
+      "auth": {
+        "onlychatgabrielbcfb5e902d": {}
+      }
+    }
+  }
+}
