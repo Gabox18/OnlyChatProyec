@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { View } from '../components/themed/Themed'
 import SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
 import ConfirmSignUp from '../components/ConfirmSignUp'

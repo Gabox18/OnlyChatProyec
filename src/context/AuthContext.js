@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Auth ,} from 'aws-amplify'
+import { Auth } from 'aws-amplify'
 
 const AuthContext = React.createContext({
 	authState: 'signIn',
@@ -39,7 +39,8 @@ function AuthProvider({ children }) {
 			console.log('user', user)
 			setAuthState('signedIn')
 		} catch (error) {
-			alert(error.message)
+			alert(error)
+			console.log('error en el logueo', error)
 			setIsLoading(false)
 			console.log(error)
 		}

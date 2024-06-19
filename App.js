@@ -7,7 +7,6 @@ import Root from './src/navigation/Root'
 import Splash from './src/screens/Splash'
 import AuthScreen from './src/screens/Auth'
 
-
 Amplify.configure(awsconfig)
 
 export default function App() {
@@ -36,3 +35,5 @@ export default function App() {
 	if (isLoading) return <Splash setUser={setUser} setIsLoading={setIsLoading} />
 	return user ? <Root user={user} /> : <AuthScreen />
 }
+
+//17:16

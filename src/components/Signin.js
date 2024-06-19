@@ -15,7 +15,11 @@ export default function SignIn() {
 			<MyInput label='Email' onChangeText={setEmail} />
 			<MyInput label='Password' secureTextEntry onChangeText={setPassword} />
 			<MyButton title='Sign In' onPress={handleSignIn} />
-			<MyButton title='Sign Up' onPress={() => setAuthState('signUp')} />
+			<MyButton
+				title='Sign Up'
+				type='secondary'
+				onPress={() => setAuthState('signUp')}
+			/>
 		</React.Fragment>
 	)
 }
