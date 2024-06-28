@@ -1,7 +1,8 @@
 import * as React from 'react'
 import MyText from '../components/MyText'
 import MyButton from '../components/MyButton'
-import { Auth } from 'aws-amplify'
+import { useAuthenticator } from '@aws-amplify/ui-react-native'
+import { getCurrentUser } from 'aws-amplify/auth'
 
 export default function Home() {
 	// const [user, setUser] = React.useState(null);
@@ -26,12 +27,19 @@ export default function Home() {
 	//   }
 	// }
 
+	const { signOut } = useAuthenticator()
+	const getUser = async () => {
+		const { signInDetails } = await getCurrentUser()
+		return signInDetails
+	}
+
+	const user = getUser()
 	return (
 		<React.Fragment>
 			<MyText type='title'>Welcome back! 🚀</MyText>
 			{/* <MyText>{user?.sub}</MyText>
-      <MyText>{user?.email}</MyText>
-      <MyButton title={"Sign Out"} onPress={handleSignOut} /> */}
+			<MyText>{user?.loginId}</MyText> */}
+			<MyButton title={'Sign Out'} onPress={signOut} />
 		</React.Fragment>
 	)
 }

@@ -1,7 +1,8 @@
-import * as React from 'react'
 import { Auth } from 'aws-amplify'
+import { createContext, useState } from 'react'
+import { signIn } from 'aws-amplify/auth'
 
-const AuthContext = React.createContext({
+const AuthContext = createContext({
 	authState: 'signIn',
 	setAuthState: () => {},
 	email: '',
@@ -19,11 +20,11 @@ const AuthContext = React.createContext({
 const { Provider } = AuthContext
 
 function AuthProvider({ children }) {
-	const [authState, setAuthState] = React.useState('signIn')
-	const [email, setEmail] = React.useState('')
-	const [password, setPassword] = React.useState('')
-	const [verificationCode, setVerificationCode] = React.useState('')
-	const [isLoading, setIsLoading] = React.useState(false)
+	const [authState, setAuthState] = useState('signIn')
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [verificationCode, setVerificationCode] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
 
 	async function handleSignIn() {
 		if (!email || !password) {
@@ -32,11 +33,11 @@ function AuthProvider({ children }) {
 		}
 		try {
 			setIsLoading(true)
-			const user = await Auth.signIn({
+			const { isSignedIn } = await signIn({
 				username: email,
 				password,
 			})
-			console.log('user', user)
+			console.log('user', isSignedIn)
 			setAuthState('signedIn')
 		} catch (error) {
 			alert(error)
