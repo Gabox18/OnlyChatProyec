@@ -2,6 +2,7 @@ import * as React from 'react'
 import MyInput from './MyInput'
 import MyButton from './MyButton'
 import MyText from './MyText'
+import { Button } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 
 export default function SignUp() {
@@ -9,12 +10,21 @@ export default function SignUp() {
 		React.useContext(AuthContext)
 	return (
 		<React.Fragment>
-			<MyText type='title'>Sign Up</MyText>
+			<MyText type='title' style={{ marginBottom: 35 }}>
+				Join the amazing community
+			</MyText>
+			<MyInput label='First Name' />
+			<MyInput label='Last Name' />
 			<MyInput label='Email' onChangeText={setEmail} />
 			<MyInput label='Password' onChangeText={setPassword} secureTextEntry />
-			<MyButton title='Sign Up' onPress={handleSignUp} />
+			<MyInput
+				label='Confirm Password'
+				onChangeText={setPassword}
+				secureTextEntry
+			/>
+			<MyButton title='Join Me' onPress={handleSignUp} />
 			<MyButton
-				title='Sign In'
+				title='Go Back'
 				type='secondary'
 				onPress={() => setAuthState('signIn')}
 			/>

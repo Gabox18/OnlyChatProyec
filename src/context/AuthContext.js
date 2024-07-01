@@ -1,9 +1,8 @@
-import { Auth } from 'aws-amplify'
 import { createContext, useState } from 'react'
-import { signIn } from 'aws-amplify/auth'
+import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth'
 
 const AuthContext = createContext({
-	authState: 'signIn',
+	authState: 'default',
 	setAuthState: () => {},
 	email: '',
 	setEmail: () => {},
@@ -20,7 +19,7 @@ const AuthContext = createContext({
 const { Provider } = AuthContext
 
 function AuthProvider({ children }) {
-	const [authState, setAuthState] = useState('signIn')
+	const [authState, setAuthState] = useState('default')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [verificationCode, setVerificationCode] = useState('')
@@ -41,9 +40,7 @@ function AuthProvider({ children }) {
 			setAuthState('signedIn')
 		} catch (error) {
 			alert(error)
-			console.log('error en el logueo', error)
 			setIsLoading(false)
-			console.log(error)
 		}
 	}
 
@@ -54,10 +51,15 @@ function AuthProvider({ children }) {
 		}
 		try {
 			setIsLoading(true)
-			await Auth.signUp({
+			const { isSignUpComplete, userId, nextStep } = await signUp({
 				username: email,
 				password,
 			})
+			console.log(
+				`isSignUpComplete === ${isSignUpComplete}
+				userId === ${userId}
+				nextStep === ${nextStep}`
+			)
 			setAuthState('confirmSignUp')
 			setIsLoading(false)
 		} catch (error) {
@@ -74,7 +76,10 @@ function AuthProvider({ children }) {
 		}
 		try {
 			setIsLoading(true)
-			await Auth.confirmSignUp(email, verificationCode)
+			await confirmSignUp({
+				username: email,
+				confirmationCode: verificationCode,
+			})
 			alert('Confirmed', 'You can now sign in.')
 			setAuthState('signIn')
 			setIsLoading(false)

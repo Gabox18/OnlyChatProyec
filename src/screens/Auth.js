@@ -1,9 +1,14 @@
-import { View } from '../components/themed/Themed'
+import * as React from 'react'
 import SignIn from '../components/SignIn'
+import ForgotPassword from '../components/ForgotPassword'
+import ConfirmForgotPassword from '../components/ConfirmForgotPassword'
 import SignUp from '../components/SignUp'
 import ConfirmSignUp from '../components/ConfirmSignUp'
 import { AuthProvider, AuthContext } from '../context/AuthContext'
-import { useContext } from 'react'
+import { useColorScheme, Image, StatusBar } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Colors from '../../constants/colors'
+import DefaultAuth from '../components/DefaultAuth'
 
 export default function Wrapper() {
 	return (
@@ -14,13 +19,36 @@ export default function Wrapper() {
 }
 
 function Auth() {
-	const { authState } = useContext(AuthContext)
-	console.log('authState', authState, 'estoy en el auth')
+	const { authState } = React.useContext(AuthContext)
+	const theme = useColorScheme()
+	const image =
+		theme === 'dark'
+			? require('../../assets/LogoDark.png')
+			: require('../../assets/LogoLight.png')
+
+	// console.log(authState);
 	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+		<KeyboardAwareScrollView
+			style={{
+				backgroundColor:
+					theme === 'dark' ? Colors.dark.background : Colors.light.background,
+				paddingHorizontal: 17,
+			}}
+			contentContainerStyle={{ paddingVertical: 90 }}
+		>
+			<Image
+				source={image}
+				style={{ width: 178, height: 178, alignSelf: 'center' }}
+			/>
+			{authState === 'default' && <DefaultAuth />}
 			{authState === 'signIn' && <SignIn />}
 			{authState === 'signUp' && <SignUp />}
 			{authState === 'confirmSignUp' && <ConfirmSignUp />}
-		</View>
+			{authState === 'forgotPassword' && <ForgotPassword />}
+			{authState === 'confirmForgotPassword' && <ConfirmForgotPassword />}
+			<StatusBar
+				barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+			/>
+		</KeyboardAwareScrollView>
 	)
 }
