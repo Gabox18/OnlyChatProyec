@@ -5,7 +5,14 @@ import MyText from './MyText'
 import { AuthContext } from '../context/AuthContext'
 
 export default function ConfirmForgotPassword() {
-	const { setAuthState, setEmail, isLoading } = React.useContext(AuthContext)
+	const {
+		setAuthState,
+		isLoading,
+		setVerificationCode,
+		setPassword,
+		setConfirmPassword,
+		handleResetPassword,
+	} = React.useContext(AuthContext)
 
 	return (
 		<React.Fragment>
@@ -15,13 +22,22 @@ export default function ConfirmForgotPassword() {
 			<MyText type='caption' style={{ marginBottom: 15 }}>
 				Enter your verification code and a new password.
 			</MyText>
-			<MyInput label='Verification Code' />
-			<MyInput label='New Password' />
-			<MyInput label='Confirm New Password' />
+			<MyInput label='Verification Code' onChangeText={setVerificationCode} />
+			<MyInput
+				label='New Password'
+				onChangeText={setPassword}
+				secureTextEntry
+			/>
+			<MyInput
+				label='Confirm New Password'
+				onChangeText={setConfirmPassword}
+				secureTextEntry
+			/>
 			<MyButton
 				title={isLoading ? 'Loading...' : 'Reset Password'}
 				disabled={isLoading ? true : false}
 				style={{ marginTop: 20 }}
+				onPress={handleResetPassword}
 			/>
 			<MyButton
 				type='secondary'

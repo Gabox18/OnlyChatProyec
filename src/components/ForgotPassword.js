@@ -5,7 +5,8 @@ import MyText from './MyText'
 import { AuthContext } from '../context/AuthContext'
 
 export default function ForgotPassword() {
-	const { setAuthState, setEmail, isLoading } = React.useContext(AuthContext)
+	const { setAuthState, setEmail, isLoading, handleForgotPassword } =
+		React.useContext(AuthContext)
 
 	return (
 		<React.Fragment>
@@ -21,7 +22,7 @@ export default function ForgotPassword() {
 				title={isLoading ? 'Sending Code...' : 'Send Code'}
 				disabled={isLoading ? true : false}
 				style={{ marginTop: 20 }}
-				onPress={() => setAuthState('confirmForgotPassword')}
+				onPress={handleForgotPassword}
 			/>
 			<MyButton
 				type='secondary'
