@@ -5,6 +5,7 @@ import Splash from './src/screens/Splash'
 import AuthScreen from './src/screens/Auth'
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react-native'
 import { useState } from 'react'
+import { useColorScheme } from 'react-native'
 
 Amplify.configure(awsconfig)
 
@@ -17,6 +18,7 @@ export default function WrapperAuthaws() {
 }
 
 function App() {
+	const colorScheme = useColorScheme()
 	const [user, setUser] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -28,7 +30,7 @@ function App() {
 	return authStatus === 'unauthenticated' ? (
 		<AuthScreen />
 	) : (
-		<Root user={user} />
+		<Root user={user} colorScheme={colorScheme} />
 	)
 }
 

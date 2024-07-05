@@ -2,44 +2,40 @@ import * as React from 'react'
 import MyText from '../components/MyText'
 import MyButton from '../components/MyButton'
 import { useAuthenticator } from '@aws-amplify/ui-react-native'
-import { getCurrentUser } from 'aws-amplify/auth'
+//import { fetchUserAttributes } from 'aws-amplify/auth'
+import { View } from '../components/themed/Themed'
+import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Home() {
-	// const [user, setUser] = React.useState(null);
+	const [user, setUser] = React.useState(null)
+	const navigation = useNavigation()
+	React.useEffect(() => {
+		async function checkFirstLaunch() {
+			const firstLaunch = await AsyncStorage.getItem('@firstLaunch')
+			if (firstLaunch === null) navigation.navigate('Onboarding')
+		}
 
-	// React.useEffect(() => {
-	//   (async () => {
-	//     try {
-	//       const { attributes } = await Auth.currentAuthenticatedUser();
-	//       setUser(attributes);
-	//     } catch (e) {
-	//       console.log(e);
-	//     }
-	//   })();
-	// }, []);
-
-	// async function handleSignOut() {
-	//   try {
-	//     await Auth.signOut();
-	//     setUser(null);
-	//   } catch (e) {
-	//     console.log(e);
-	//   }
-	// }
+		checkFirstLaunch()
+		// ;(async () => {
+		// 	try {
+		// 		const { email, family_name, given_name } = await fetchUserAttributes()
+		// 		setUser({ email, family_name, given_name })
+		// 	} catch (e) {
+		// 		console.log(e)
+		// 	}
+		// })()
+		// navigation.navigate('Onboarding')
+	}, [])
 
 	const { signOut } = useAuthenticator()
-	const getUser = async () => {
-		const { signInDetails } = await getCurrentUser()
-		return signInDetails
-	}
-
-	const user = getUser()
+	//console.log(user)
 	return (
-		<React.Fragment>
+		<View style={{ flex: 1 }}>
 			<MyText type='title'>Welcome back! 🚀</MyText>
-			{/* <MyText>{user?.sub}</MyText>
-			<MyText>{user?.loginId}</MyText> */}
+			{/* <MyText>{`${user?.given_name} ${user?.family_name}`}</MyText>
+			<MyText>{user?.email}</MyText> */}
 			<MyButton title={'Sign Out'} onPress={signOut} />
-		</React.Fragment>
+		</View>
 	)
 }
