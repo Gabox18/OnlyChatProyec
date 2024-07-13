@@ -2,8 +2,54 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-type Todo @model {
+type User @model {
   id: ID!
-  name: String!
-  description: String
+  firstName: String
+  lastName: String
+  profilePicture: String
+  email: String
+  status: String
+  notificationToken: String
+  chatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRooms")
 }
+
+type ChatRoom @model {
+  id: ID!
+  isSeenBy: [ID]
+  messages: [Message] @hasMany
+  lastMessage: Message @hasOne
+  participants: [User] @manyToMany(relationName: "UserChatRooms")
+  createdAt: String
+  updatedAt: String
+}
+
+type Post @model {
+  id: ID!
+  type: String
+    @default(value: "Post")
+    @index(
+      name: "postsByDate"
+      queryField: "postsByDate"
+      sortKeyFields: ["createdAt"]
+    )
+  author: User @hasOne
+  content: String
+  numberOfLikes: Int
+  likedBy: [ID]
+  createdAt: String
+  updatedAt: String
+}
+
+type Message @model {
+  id: ID!
+  chatRoomID: ID!
+    @index(
+      name: "messagesByChatRoom"
+      queryField: "messagesByChatRoom"
+      sortKeyFields: ["createdAt"]
+    )
+  author: User @hasOne
+  content: String
+  createdAt: String
+  updatedAt: String
+} 
