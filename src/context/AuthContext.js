@@ -7,6 +7,11 @@ import {
 	confirmResetPassword,
 	resendSignUpCode,
 } from 'aws-amplify/auth'
+import { generateClient } from 'aws-amplify/api'
+import { createUser } from '../graphql/mutations'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../features/user'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 
 const AuthContext = createContext({
 	authState: 'default',
@@ -43,6 +48,8 @@ function AuthProvider({ children }) {
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [confirmPassword, setConfirmPassword] = useState('')
+	const dispatch = useDispatch()
+	const client = generateClient()
 
 	async function handleSignIn() {
 		if (!email || !password) {
@@ -55,10 +62,12 @@ function AuthProvider({ children }) {
 				username: email,
 				password,
 			})
-			console.log('user', isSignedIn)
+			setIsLoading(false)
+			console.log('user', isSignedIn, 'desde el handleSignIn ')
 			setAuthState('signedIn')
 		} catch (error) {
 			alert(error)
+			console.log('ERROR DEL LOGIN----------->', error.message)
 			setIsLoading(false)
 		}
 	}
@@ -74,7 +83,8 @@ function AuthProvider({ children }) {
 		}
 		try {
 			setIsLoading(true)
-			const { isSignUpComplete, userId, nextStep } = await signUp({
+
+			await signUp({
 				username: email,
 				password,
 				options: {
@@ -109,8 +119,13 @@ function AuthProvider({ children }) {
 				username: email,
 				confirmationCode: verificationCode,
 			})
-			alert('Confirmed', 'You can now sign in.')
-			setAuthState('signIn')
+			const { isSignedIn } = await signIn({
+				username: email,
+				password,
+			})
+			let attributes = await fetchUserAttributes()
+			await saveUserToDatabase(attributes)
+			alert('Welcome,account created succesfully', isSignedIn)
 			setIsLoading(false)
 		} catch (error) {
 			setIsLoading(false)
@@ -184,6 +199,33 @@ function AuthProvider({ children }) {
 		}
 	}
 
+	async function saveUserToDatabase(attributes) {
+		const userToSave = {
+			id: attributes.sub,
+			firstName: attributes.family_name,
+			lastName: attributes.given_name,
+			profilePicture: null,
+			email: attributes.email.toLowerCase(),
+			status: null,
+			notificationToken: null,
+		}
+		try {
+			const userDB = await client.graphql({
+				query: createUser,
+				variables: {
+					input: userToSave,
+				},
+			})
+			dispatch(setUser(userToSave))
+			console.log(
+				'se guardo este user desde el saveUserToDatabase---->',
+				userDB
+			)
+		} catch (error) {
+			console.log(error, 'desde el saveUserToDatabase al guarda el user')
+		}
+	}
+
 	return (
 		<Provider
 			value={{
@@ -216,3 +258,4 @@ function AuthProvider({ children }) {
 }
 
 export { AuthContext, AuthProvider }
+
