@@ -1,0 +1,14 @@
+{
+  "resourceName": "s34570cf93",
+  "policyUUID": "4570cf93",
+  "bucketName": "onlychatgabrielbc68b4d36f55b94a348de90f5752ed5d",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

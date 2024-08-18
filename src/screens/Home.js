@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 
 export default function Home() {
 	//const [user, setUser] = React.useState(null)
-	const user = useSelector(state =>state.user)
+	const user = useSelector(state => state.user)
 	const navigation = useNavigation()
 	React.useEffect(() => {
 		async function checkFirstLaunch() {
@@ -29,19 +29,19 @@ export default function Home() {
 		// })()
 		// navigation.navigate('Onboarding')
 
-	// 	;(async () => {
-	// 		try {
-	// 			let attributes = await fetchUserAttributes()
-	// 			setUser(attributes)
-				
-	// 			//setIsLoading(false)
+		// 	;(async () => {
+		// 		try {
+		// 			let attributes = await fetchUserAttributes()
+		// 			setUser(attributes)
 
-	// 		} catch (e) {
-	// 			console.log(e)
-	// 			//setIsLoading(false)
-	// 		}
-	// 	}
-	// )()
+		// 			//setIsLoading(false)
+
+		// 		} catch (e) {
+		// 			console.log(e)
+		// 			//setIsLoading(false)
+		// 		}
+		// 	}
+		// )()
 	}, [])
 
 	const { signOut } = useAuthenticator()

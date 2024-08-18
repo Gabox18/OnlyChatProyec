@@ -202,8 +202,8 @@ function AuthProvider({ children }) {
 	async function saveUserToDatabase(attributes) {
 		const userToSave = {
 			id: attributes.sub,
-			firstName: attributes.family_name,
-			lastName: attributes.given_name,
+			firstName: attributes.given_name,
+			lastName: attributes.family_name,
 			profilePicture: null,
 			email: attributes.email.toLowerCase(),
 			status: null,
@@ -258,4 +258,3 @@ function AuthProvider({ children }) {
 }
 
 export { AuthContext, AuthProvider }
-

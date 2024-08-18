@@ -1,13 +1,16 @@
-import { Auth } from 'aws-amplify'
 import * as React from 'react'
-import MyText from '../components/MyText'
-import MyButton from '../components/MyButton'
 import { View } from '../components/themed/Themed'
+import ProfilePicture from '../components/profilePicture'
+import { StatusBar, useColorScheme } from 'react-native'
 
 export default function Profile() {
+	const theme = useColorScheme()
 	return (
 		<View style={{ flex: 1 }}>
-			<MyText type='title'>Settings</MyText>
+			<ProfilePicture />
+			<StatusBar
+				barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+			/>
 		</View>
 	)
 }
