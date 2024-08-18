@@ -12,17 +12,21 @@ import { resetProfilePicture } from '../features/user'
 
 const client = generateClient()
 
-function ProfileFallback({ firstName }) {
+function ProfileFallback(user) {
 	return (
+		// <View style={styles.fallback}>
+		// 	<MyText style={styles.initialLetter}>{user?.firstName[0]}</MyText>
+		// </View>
+		// codigo de arriba rompe la app solo agarra la letra inicial del nombre desde redux
 		<View style={styles.fallback}>
-			<MyText style={styles.initialLetter}>{firstName[0]}</MyText>
+			<MyText style={styles.initialLetter}>Your Photo</MyText>
 		</View>
 	)
 }
 
 export default function ProfilePicture() {
 	const user = useSelector(state => state.user)
-	const { firstName, lastName, profilePicture, id } = user
+	//const { firstName, lastName, profilePicture, id } = user
 	const dispatch = useDispatch()
 
 	const pickeImage = async () => {
@@ -61,7 +65,7 @@ export default function ProfilePicture() {
 
 	const updateUserPictureInDB = async newPhoto => {
 		console.log(
-			profilePicture,
+			user?.profilePicture,
 			'profilePicture----> desde updateUserPictureInDB'
 		)
 		try {
@@ -69,7 +73,7 @@ export default function ProfilePicture() {
 				query: updateUser,
 				variables: {
 					input: {
-						id: id,
+						id: user?.id,
 						profilePicture: newPhoto,
 					},
 				},
@@ -89,14 +93,14 @@ export default function ProfilePicture() {
 	return (
 		<View style={styles.container}>
 			<Pressable onPress={pickeImage}>
-				{profilePicture ? (
-					<Image source={{ uri: profilePicture }} style={styles.image} />
+				{user?.profilePicture ? (
+					<Image source={{ uri: user?.profilePicture }} style={styles.image} />
 				) : (
-					<ProfileFallback firstName={firstName} />
+					<ProfileFallback firstName={user?.firstName} /> // <MyText>hola</MyText>
 				)}
 			</Pressable>
 			<MyText style={{ fontWeight: 'bold' }}>
-				{firstName} {lastName}
+				{user?.firstName} {user?.lastName}
 			</MyText>
 		</View>
 	)
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
 		marginBottom: 6,
 	},
 	initialLetter: {
-		fontSize: 60,
+		//fontSize: 60,
 		lineHeight: 100,
 		textAlign: 'center',
 		color: 'white',
