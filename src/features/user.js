@@ -34,8 +34,33 @@ const userSlice = createSlice({
 				profilePicture: action.payload,
 			}
 		},
+		resetFirstName: (state, action) => {
+			return {
+				...state,
+				firstName: action.payload,
+			}
+		},
+		resetLastName: (state, action) => {
+			return {
+				...state,
+				lastName: action.payload,
+			}
+		},
+		resetStatus: (state, action) => {
+			return {
+				...state,
+				status: action.payload,
+			}
+		},
 	},
 })
 
-export const { setUser, resetUser, resetProfilePicture } = userSlice.actions
+export const {
+	setUser,
+	resetUser,
+	resetProfilePicture,
+	resetFirstName,
+	resetLastName,
+	resetStatus,
+} = userSlice.actions
 export default userSlice.reducer

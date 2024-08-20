@@ -5,12 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import { Buffer } from 'buffer'
 import { MYBUCKET } from '@env'
-import { generateClient } from 'aws-amplify/api'
 import { uploadData } from 'aws-amplify/storage'
-import { updateUser } from '../graphql/mutations'
 import { resetProfilePicture } from '../features/user'
-
-const client = generateClient()
+import { updateUserPictureInDB } from '../utils/userOperations'
 
 function ProfileFallback(user) {
 	return (
@@ -42,7 +39,7 @@ export default function ProfilePicture() {
 			const fileName = result.assets[0].fileName
 			const mimeType = result.assets[0].mimeType
 			const fileBuffer = Buffer.from(result.assets[0].base64, 'base64')
-			//save Photo In AWSS3 //save Photo In DB
+			//save Photo In AWSS3
 			await savePhotoInAwsS3(fileName, mimeType, fileBuffer)
 		}
 	}
@@ -54,39 +51,13 @@ export default function ProfilePicture() {
 				data: fileBuffer,
 				options: { contentType: mimeType },
 			}).result
-			console.log('Succeeded: ', uploadFile)
+			//console.log('Succeeded: ', uploadFile)
 			let newPhoto = `https://${MYBUCKET}.s3.amazonaws.com/${uploadFile.path}`
 			dispatch(resetProfilePicture(newPhoto))
-			updateUserPictureInDB(newPhoto)
+			//save Photo In DB
+			await updateUserPictureInDB(user.id, newPhoto)
 		} catch (error) {
 			console.log('Error : al subir a AWS S3 ', error)
-		}
-	}
-
-	const updateUserPictureInDB = async newPhoto => {
-		console.log(
-			user?.profilePicture,
-			'profilePicture----> desde updateUserPictureInDB'
-		)
-		try {
-			const userNewUpdate = await client.graphql({
-				query: updateUser,
-				variables: {
-					input: {
-						id: user?.id,
-						profilePicture: newPhoto,
-					},
-				},
-			})
-			console.log(
-				'se guardo este foto desde updateUserPictureInDB---->',
-				userNewUpdate
-			)
-		} catch (error) {
-			console.log(
-				error,
-				'desde el updateUserPictureInDB al guardar foto de perfil'
-			)
 		}
 	}
 
