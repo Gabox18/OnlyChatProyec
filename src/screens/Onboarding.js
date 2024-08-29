@@ -5,16 +5,25 @@ import MyButton from '../components/MyButton'
 import { Image, StyleSheet, View as DefaultView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetNotificationToken } from '../features/user'
+import { registerForPushNotificationsAsync } from '../utils/registerForPushNotificationsAsync'
+import { updateUserNotificationTokenDB } from '../utils/userOperations'
 
 export default function Onboarding() {
+	const { id } = useSelector(state => state.user)
+	const dispatch = useDispatch()
 	const navigation = useNavigation()
 
 	async function handleOnContinue() {
 		try {
+			const token = await registerForPushNotificationsAsync()
+			if (token !== null) {
+				await updateUserNotificationTokenDB(id, token)
+				dispatch(resetNotificationToken(token))
+			}
 			await AsyncStorage.setItem('@firstLaunch', 'true')
 			navigation.navigate('Home')
-			// to do
-			// ask permitions
 			// get token and location
 		} catch (e) {
 			console.log('Onboarding error', e)

@@ -11,6 +11,8 @@ export const getUser = /* GraphQL */ `
       email
       status
       notificationToken
+      latitude
+      longitude
       chatRooms {
         nextToken
         __typename
@@ -36,6 +38,8 @@ export const listUsers = /* GraphQL */ `
         email
         status
         notificationToken
+        latitude
+        longitude
         createdAt
         updatedAt
         __typename
@@ -108,6 +112,8 @@ export const getPost = /* GraphQL */ `
         email
         status
         notificationToken
+        latitude
+        longitude
         createdAt
         updatedAt
         __typename
@@ -158,6 +164,8 @@ export const getMessage = /* GraphQL */ `
         email
         status
         notificationToken
+        latitude
+        longitude
         createdAt
         updatedAt
         __typename
@@ -207,6 +215,8 @@ export const getUserChatRooms = /* GraphQL */ `
         email
         status
         notificationToken
+        latitude
+        longitude
         createdAt
         updatedAt
         __typename

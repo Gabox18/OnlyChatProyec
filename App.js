@@ -12,6 +12,15 @@ import { Hub } from 'aws-amplify/utils'
 import { setUser, resetUser } from './src/features/user'
 import { generateClient } from 'aws-amplify/api'
 import { getUser } from './src/graphql/queries'
+import * as Notifications from 'expo-notifications'
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+		shouldPlaySound: false,
+		shouldSetBadge: false,
+	}),
+})
 
 Amplify.configure(awsconfig)
 

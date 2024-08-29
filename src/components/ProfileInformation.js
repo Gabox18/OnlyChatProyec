@@ -15,7 +15,7 @@ export default function ProfileInformation() {
 	const theme = useColorScheme()
 
 	return (
-		<View>
+		<View style={{ paddingBottom: 44 }}>
 			<MyText
 				type='caption'
 				style={{ fontWeight: '600', color: Colors[theme].text + '40' }}
@@ -63,7 +63,7 @@ function InfoField({
 	const [localValue, setLocalValue] = useState(value)
 	const dispatch = useDispatch()
 	return (
-		<View style={Styles.fieldContainer}>
+		<View style={[Styles.fieldContainer,{borderBottomColor: Colors[theme].text + '80'}]}>
 			<MyText
 				type='caption'
 				style={{

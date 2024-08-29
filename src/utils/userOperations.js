@@ -1,5 +1,5 @@
 import { generateClient } from 'aws-amplify/api'
-import { updateUser } from '../graphql/mutations'
+import { updateUser, deleteUser as deleteMutation } from '../graphql/mutations'
 
 const client = generateClient()
 
@@ -72,5 +72,60 @@ export const updateUserLastNameInDB = async (usetID, newLastName) => {
 		return userNewUpdate
 	} catch (error) {
 		console.log(error, 'desde el updateUserLastNameDB')
+	}
+}
+
+export const updateUserNotificationTokenDB = async (usetID, token) => {
+	try {
+		const userNewUpdate = await client.graphql({
+			query: updateUser,
+			variables: {
+				input: {
+					id: usetID,
+					notificationToken: token,
+				},
+			},
+		})
+		//console.log(userNewUpdate, 'desde updateUserNotificationTokenDB---->')
+		return userNewUpdate
+	} catch (error) {
+		console.log(error, 'desde el updateUserNotificationTokenDB')
+	}
+}
+
+export const updateUserLocationDB = async (usetID, location) => {
+	const { latitude, longitude } = location
+	try {
+		const userNewUpdate = await client.graphql({
+			query: updateUser,
+			variables: {
+				input: {
+					id: usetID,
+					latitude: latitude,
+					longitude: longitude,
+				},
+			},
+		})
+		//console.log(userNewUpdate, 'desde updateUserLocationDB---->')
+		return userNewUpdate
+	} catch (error) {
+		console.log(error, 'desde el updateUserLocationDB')
+	}
+}
+
+export const deleteUser = async userID => {
+	try {
+		const userNewUpdate = await client.graphql({
+			query: deleteMutation,
+			variables: {
+				input: {
+					id: userID,
+				},
+			},
+		})
+		console.log('desde deleteUser---->', userNewUpdate)
+		return userNewUpdate
+	} catch (error) {
+		console.log(error, 'desde el updateUserLocationDB')
 	}
 }

@@ -1,0 +1,46 @@
+export default {
+	expo: {
+		name: 'OnlyChatGabriel',
+		slug: 'OnlyChatGabriel',
+		version: '1.0.0',
+		orientation: 'portrait',
+		icon: './assets/icon.png',
+		userInterfaceStyle: 'automatic',
+		splash: {
+			image: './assets/splash.png',
+			resizeMode: 'contain',
+			backgroundColor: '#ffffff',
+		},
+		ios: {
+			supportsTablet: true,
+			userInterfaceStyle: 'automatic',
+		},
+		android: {
+			userInterfaceStyle: 'automatic',
+			adaptiveIcon: {
+				foregroundImage: './assets/adaptive-icon.png',
+				backgroundColor: '#ffffff',
+			},
+			package: 'com.gabox18.OnlyChatGabriel',
+			googleServicesFile:
+				process.env.GOOGLE_SERVICES_JSON || './google-services.json',
+		},
+		web: {
+			favicon: './assets/favicon.png',
+		},
+		plugins: [
+			[
+				'expo-image-picker',
+				{
+					photosPermission:
+						'The app accesses your photos to let you share them with your friends.',
+				},
+			],
+		],
+		extra: {
+			eas: {
+				projectId: '988bb32d-44e3-4425-b05a-f6cb823545e9',
+			},
+		},
+	},
+}

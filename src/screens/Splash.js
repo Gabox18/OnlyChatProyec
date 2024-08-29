@@ -32,6 +32,8 @@ export default function Splash({ setIsLoading }) {
 						email: userDb.data.getUser.email.toLowerCase(),
 						status: userDb.data.getUser.status,
 						notificationToken: userDb.data.getUser.notificationToken,
+						latitude: userDb.data.getUser.latitude,
+						longitude: userDb.data.getUser.longitude,
 					})
 				)
 				//console.log('atributos desde el splash', attributes)
