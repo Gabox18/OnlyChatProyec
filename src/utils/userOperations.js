@@ -113,7 +113,7 @@ export const updateUserLocationDB = async (usetID, location) => {
 	}
 }
 
-export const deleteUser = async userID => {
+export const deleteUserInDB = async userID => {
 	try {
 		const userNewUpdate = await client.graphql({
 			query: deleteMutation,

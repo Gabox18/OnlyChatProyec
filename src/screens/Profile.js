@@ -8,10 +8,13 @@ import ProfilePermissions from '../components/ProfilePermissions'
 export default function Profile() {
 	const theme = useColorScheme()
 	return (
-		<ScrollView style={{ flex: 1 }}>
+		<ScrollView
+			style={{ flex: 1 }}
+			contentContainerStyle={{ paddingBottom: 100 }}
+		>
 			<ProfilePicture />
 			<ProfileInformation />
-			<ProfilePermissions/>
+			<ProfilePermissions />
 			<StatusBar
 				barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
 			/>
