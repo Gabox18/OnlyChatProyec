@@ -63,7 +63,12 @@ function InfoField({
 	const [localValue, setLocalValue] = useState(value)
 	const dispatch = useDispatch()
 	return (
-		<View style={[Styles.fieldContainer,{borderBottomColor: Colors[theme].text + '80'}]}>
+		<View
+			style={[
+				Styles.fieldContainer,
+				{ borderBottomColor: Colors[theme].text + '80' },
+			]}
+		>
 			<MyText
 				type='caption'
 				style={{
